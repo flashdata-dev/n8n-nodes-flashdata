@@ -1,0 +1,63 @@
+{
+  "name": "n8n-nodes-flashdata",
+  "version": "0.1.0",
+  "description": "Google search results, YouTube video discovery, metadata, and transcripts for n8n workflows.",
+  "license": "MIT",
+  "homepage": "https://github.com/flashdata-dev/n8n-nodes-flashdata",
+  "keywords": [
+    "n8n-community-node-package",
+    "flashdata",
+    "google-search",
+    "youtube",
+    "transcript"
+  ],
+  "author": {
+    "name": "flashdata-dev",
+    "url": "https://github.com/flashdata-dev",
+    "email": "339529372+flashdata-dev@users.noreply.github.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/flashdata-dev/n8n-nodes-flashdata.git"
+  },
+  "scripts": {
+    "build": "n8n-node build",
+    "build:watch": "tsc --watch",
+    "dev": "n8n-node dev",
+    "lint": "n8n-node lint",
+    "lint:fix": "n8n-node lint --fix",
+    "release": "n8n-node release",
+    "prepublishOnly": "n8n-node prerelease",
+    "test": "npm run build && node --test test/*.test.cjs",
+    "test:integration": "node test/integration.cjs",
+    "format": "prettier --write credentials nodes test"
+  },
+  "files": [
+    "dist",
+    "workflows"
+  ],
+  "n8n": {
+    "n8nNodesApiVersion": 1,
+    "strict": true,
+    "credentials": [
+      "dist/credentials/FlashdataApi.credentials.js"
+    ],
+    "nodes": [
+      "dist/nodes/Flashdata/Flashdata.node.js"
+    ]
+  },
+  "devDependencies": {
+    "@n8n/node-cli": "0.52.0",
+    "eslint": "9.32.0",
+    "nock": "15.0.1",
+    "prettier": "3.6.2",
+    "release-it": "^21.1.0",
+    "typescript": "5.9.2"
+  },
+  "peerDependencies": {
+    "n8n-workflow": "*"
+  },
+  "bugs": {
+    "url": "https://github.com/flashdata-dev/n8n-nodes-flashdata/issues"
+  }
+}

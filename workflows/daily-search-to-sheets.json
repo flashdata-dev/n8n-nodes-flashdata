@@ -1,0 +1,270 @@
+{
+  "name": "FlashData - Daily Google search snapshots to Sheets",
+  "active": false,
+  "nodes": [
+    {
+      "id": "run-manually",
+      "name": "Run manually",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        240
+      ],
+      "parameters": {}
+    },
+    {
+      "id": "search-settings",
+      "name": "Search settings",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        240,
+        240
+      ],
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "query",
+              "name": "query",
+              "value": "battery recycling",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "search-google",
+      "name": "Search Google",
+      "type": "n8n-nodes-flashdata.flashdata",
+      "typeVersion": 1,
+      "position": [
+        480,
+        240
+      ],
+      "parameters": {
+        "resource": "googleSearch",
+        "operation": "search",
+        "query": "={{$json.query}}",
+        "options": {
+          "gl": "us",
+          "hl": "en",
+          "num": 10,
+          "page": 1
+        }
+      }
+    },
+    {
+      "id": "split-search-results",
+      "name": "Split search results",
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        720,
+        240
+      ],
+      "parameters": {
+        "fieldToSplitOut": "results[0].organic",
+        "include": "allOtherFields",
+        "options": {
+          "destinationFieldName": "result"
+        }
+      }
+    },
+    {
+      "id": "search-row",
+      "name": "Search row",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        960,
+        240
+      ],
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "query",
+              "name": "query",
+              "value": "={{ $('Search settings').first().json.query }}",
+              "type": "string"
+            },
+            {
+              "id": "captured_at",
+              "name": "captured_at",
+              "value": "={{$json.created_at}}",
+              "type": "string"
+            },
+            {
+              "id": "title",
+              "name": "title",
+              "value": "={{$json.result.title}}",
+              "type": "string"
+            },
+            {
+              "id": "url",
+              "name": "url",
+              "value": "={{$json.result.link}}",
+              "type": "string"
+            },
+            {
+              "id": "snippet",
+              "name": "snippet",
+              "value": "={{$json.result.snippet || ''}}",
+              "type": "string"
+            },
+            {
+              "id": "position",
+              "name": "position",
+              "value": "={{$json.result.position}}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "append-snapshot-to-sheets",
+      "name": "Append snapshot to Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1200,
+        240
+      ],
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "sheet",
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "REPLACE_WITH_SPREADSHEET_ID"
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "name",
+          "value": "Search snapshots"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {}
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "every-day-at-0900-utc",
+      "name": "Every day at 0900 UTC",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        480
+      ],
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "days",
+              "triggerAtHour": 9
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "setup-instructions",
+      "name": "Setup instructions",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        -40
+      ],
+      "parameters": {
+        "content": "## Setup\nSelect FlashData and Google Sheets credentials. Set the spreadsheet ID and tab. Header row: query, captured_at, title, url, snippet, position. Edit Search settings. Test manually, then activate for 09:00 UTC daily. Each run appends a snapshot; compare previous captures in Sheets. Existing rows are not overwritten. See workflows/README.md.",
+        "height": 210,
+        "width": 690
+      }
+    }
+  ],
+  "connections": {
+    "Run manually": {
+      "main": [
+        [
+          {
+            "node": "Search settings",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search settings": {
+      "main": [
+        [
+          {
+            "node": "Search Google",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search Google": {
+      "main": [
+        [
+          {
+            "node": "Split search results",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split search results": {
+      "main": [
+        [
+          {
+            "node": "Search row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search row": {
+      "main": [
+        [
+          {
+            "node": "Append snapshot to Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Every day at 0900 UTC": {
+      "main": [
+        [
+          {
+            "node": "Search settings",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "UTC"
+  },
+  "pinData": {},
+  "tags": []
+}

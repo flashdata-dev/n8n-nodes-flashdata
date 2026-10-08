@@ -1,0 +1,18 @@
+{
+	"node": "n8n-nodes-flashdata",
+	"nodeVersion": "1.0",
+	"codexVersion": "1.0",
+	"categories": ["Data & Storage", "Marketing & Content"],
+	"resources": {
+		"credentialDocumentation": [
+			{
+				"url": "https://github.com/flashdata-dev/n8n-nodes-flashdata#credentials"
+			}
+		],
+		"primaryDocumentation": [
+			{
+				"url": "https://github.com/flashdata-dev/n8n-nodes-flashdata"
+			}
+		]
+	}
+}
