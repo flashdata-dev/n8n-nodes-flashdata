@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.2 (2026-10-09)
+
+- Use the existing public npm publisher contact email for n8n package ownership verification. No runtime changes.
+
 ## 0.1.1 (2026-10-09)
 
 First npm release. Explicit public access enables provenance for the initial package publication.

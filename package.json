@@ -1,6 +1,6 @@
 {
   "name": "n8n-nodes-flashdata",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "publishConfig": {
     "access": "public"
   },
@@ -17,7 +17,7 @@
   "author": {
     "name": "flashdata-dev",
     "url": "https://github.com/flashdata-dev",
-    "email": "339529372+flashdata-dev@users.noreply.github.com"
+    "email": "rocosenyy@gmail.com"
   },
   "repository": {
     "type": "git",
