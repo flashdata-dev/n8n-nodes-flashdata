@@ -6,13 +6,13 @@ Discover videos, retrieve metadata and timestamped transcripts, and connect the 
 
 [n8n](https://n8n.io/) is a [fair-code licensed](https://docs.n8n.io/sustainable-use-license/) workflow automation platform.
 
-**Release status:** source preview. npm publication and n8n verification are pending. This package is not yet discoverable or installable through the n8n Cloud node panel.
+**n8n verification:** pending. This package is not yet discoverable or installable through the n8n Cloud node panel.
 
 ## Installation
 
-After the first npm release, self-hosted n8n users can open **Settings → Community nodes → Install**, enter `n8n-nodes-flashdata`, and install it. See the [n8n community node installation guide](https://docs.n8n.io/integrations/community-nodes/installation/).
+Self-hosted n8n users can open **Settings → Community nodes → Install**, enter `n8n-nodes-flashdata`, and install it from [npm](https://www.npmjs.com/package/n8n-nodes-flashdata). See the [n8n community node installation guide](https://docs.n8n.io/integrations/community-nodes/installation/).
 
-For the current source preview, use the [development instructions](#development). n8n Cloud availability requires separate approval by n8n; publishing to npm does not grant that approval.
+For local development, use the [development instructions](#development). n8n Cloud availability requires separate approval by n8n; publishing to npm does not grant that approval.
 
 ## Credentials
 
